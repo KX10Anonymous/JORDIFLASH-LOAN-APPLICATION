@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.getElementById('loan-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -31,6 +30,3 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
         alert('Please fill in all fields correctly.');
     }
 });
-=======
-
->>>>>>> c11d49f1eba5bc21a495738ee63d1c3991c2c5a7
