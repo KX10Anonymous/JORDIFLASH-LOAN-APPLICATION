@@ -1,5 +1,3 @@
-
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -15,7 +13,7 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    max-width: 600px; /* Adjusted for a more reasonable width */
     width: 100%;
 }
 
@@ -33,17 +31,17 @@ label {
 }
 
 input, select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
+    width: calc(100% - 30px); /* Increased padding for better spacing */
+    padding: 12px; /* Adjusted padding */
+    margin-bottom: 15px; /* Increased margin for better spacing */
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Increased padding for better click area */
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -55,5 +53,12 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-styles.css
-Displaying styles.css.
+
+#result {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}

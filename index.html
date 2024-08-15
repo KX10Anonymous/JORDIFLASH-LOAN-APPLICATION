@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,62 +7,60 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <form id="loan-form">
-        <br>
-        <label for="first name">First Name:</label>
-        <input   type="text" id="firstname" name="firstname" required>
-        <br>
+    <div class="form-container">
+        <h1>Loan Application</h1>
+        <form id="loan-form">
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" required>
+            <br>
 
-        <br>
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname" required>
-        <br>
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" required>
+            <br>
 
-        <label for="idNumber">ID Number:</label>
-        <input type="text" id="idNumber" name="idNumber" required oninput="populateDOB()">
+            <label for="idNumber">ID Number:</label>
+            <input type="text" id="idNumber" name="idNumber" required oninput="populateDOB()">
+            <br>
 
-        <br>
-        <label name="Amount"><br><br>Loan Amount: </label>
-        <input type="number" id="loan-amount" name="loan-amount" required>
-        <br>
+            <label for="loan-amount">Loan Amount:</label>
+            <input type="number" id="loan-amount" name="loan-amount" required>
+            <br>
+            
+            <label for="term">Term:</label>
+            <input type="number" id="term" name="term" required>
+            
+            <input hidden type="date" id="dob" name="dob" readonly>
+            <input hidden type="text" id="age" name="age" readonly>
+            
+            <button type="submit">Submit Application</button>
+        </form>
         
-        <label name="Amount"><br><br>Term: </label>
-        <input type="number" id="term" name="term" required>
-        
-       
-        
-        <br>
-        <button type="submit">Submit Application</button>
-        <br>
-
-    </form>
-    
-    <div id="result"></div>
-</body>
-<script src="js/main.js"></script>
-<script>
-function populateDOB() {
-    const idNumber = document.getElementById('idNumber').value;
-    const dobField = document.getElementById('dob');
-    const ageField = document.getElementById('age');
-    if (idNumber.length >= 6) {
-        const year = idNumber.substring(0, 2);
-        const month = idNumber.substring(2, 4);
-        const day = idNumber.substring(4, 6);
-        const currentYear = new Date().getFullYear();
-        const fullYear = (parseInt(year) > currentYear % 100) ? `19${year}` : `20${year}`;
-        dobField.value = `${fullYear}-${month}-${day}`;
-        
-        // Calculate age
-        const birthDate = new Date(fullYear, month - 1, day);
-        const age = currentYear - birthDate.getFullYear();
-        const monthDiff = new Date().getMonth() - birthDate.getMonth();
-        if (monthDiff < 0 || (monthDiff === 0 && new Date().getDate() < birthDate.getDate())) {
-            age--;
+        <div id="result"></div>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+    function populateDOB() {
+        const idNumber = document.getElementById('idNumber').value;
+        const dobField = document.getElementById('dob');
+        const ageField = document.getElementById('age');
+        if (idNumber.length >= 6) {
+            const year = idNumber.substring(0, 2);
+            const month = idNumber.substring(2, 4);
+            const day = idNumber.substring(4, 6);
+            const currentYear = new Date().getFullYear();
+            const fullYear = (parseInt(year) > currentYear % 100) ? `19${year}` : `20${year}`;
+            dobField.value = `${fullYear}-${month}-${day}`;
+            
+            // Calculate age
+            const birthDate = new Date(fullYear, month - 1, day);
+            let age = currentYear - birthDate.getFullYear();
+            const monthDiff = new Date().getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && new Date().getDate() < birthDate.getDate())) {
+                age--;
+            }
+            ageField.value = `${age}`;
         }
-        ageField.textContent = `Age: ${age}`;
     }
-}
-
-</script>
+    </script>
+</body>
 </html>

@@ -1,6 +1,7 @@
 document.getElementById('loan-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    const baseRate = 8.5;
     const name = document.getElementById('firstname').value + " " + document.getElementById('surname').value;
     const loanAmount = parseFloat(document.getElementById('loan-amount').value);
     const term = parseInt(document.getElementById('term').value);
@@ -9,11 +10,11 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
     let annualRate;
 
     if (age < 30) {
-        annualRate = 5;
-    } else if (age < 50) {
-        annualRate = 4.5;
+        annualRate = baseRate + 2.0;
+    } else if (age >= 30 && age < 50) {
+        annualRate = baseRate + 1.5;
     } else {
-        annualRate = 4;
+        annualRate = baseRate + 1.0;
     }
 
     const monthlyRate = annualRate / 100 / 12;
@@ -21,7 +22,7 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
     const denominator = Math.pow(1 + monthlyRate, numberOfPayments) - 1;
     const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / denominator;
 
-    if (name && !isNaN(loanAmount) && !isNaN(term) && !isNaN(age)) {
+    if (name) {
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
             <h2>Application Submitted</h2>
