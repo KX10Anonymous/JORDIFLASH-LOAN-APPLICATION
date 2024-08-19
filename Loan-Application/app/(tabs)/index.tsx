@@ -1,70 +1,123 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function LoanApplication() {
+  const [firstName, setFirstName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [idNumber, setIdNumber] = useState('');
+  const [loanAmount, setLoanAmount] = useState('');
+  const [term, setTerm] = useState('');
+  const [dob, setDob] = useState('');
+  const [age, setAge] = useState('');
 
-export default function HomeScreen() {
+  const populateDOB = (idNumber: string) => {
+    if (idNumber.length >= 6) {
+      const year = idNumber.substring(0, 2);
+      const month = idNumber.substring(2, 4);
+      const day = idNumber.substring(4, 6);
+      const currentYear = new Date().getFullYear();
+      const fullYear = parseInt(year) > currentYear % 100 ? `19${year}` : `20${year}`;
+      const birthDate = `${fullYear}-${month}-${day}`;
+      setDob(birthDate);
+
+      // Calculate age
+      const birthDateObj = new Date(parseInt(fullYear), parseInt(month) - 1, parseInt(day));
+      let calculatedAge = currentYear - birthDateObj.getFullYear();
+      const monthDiff = new Date().getMonth() - birthDateObj.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && new Date().getDate() < birthDateObj.getDate())) {
+        calculatedAge--;
+      }
+      setAge(calculatedAge.toString());
+    }
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission
+    console.log({
+      firstName,
+      surname,
+      idNumber,
+      loanAmount,
+      term,
+      dob,
+      age,
+    });
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.formContainer}>
+      <Text style={styles.title}>Loan Application</Text>
+      
+      <Text>First Name:</Text>
+      <TextInput
+        style={styles.input}
+        value={firstName}
+        onChangeText={setFirstName}
+        placeholder="Enter First Name"
+      />
+
+      <Text>Surname:</Text>
+      <TextInput
+        style={styles.input}
+        value={surname}
+        onChangeText={setSurname}
+        placeholder="Enter Surname"
+      />
+
+      <Text>ID Number:</Text>
+      <TextInput
+        style={styles.input}
+        value={idNumber}
+        onChangeText={(text) => {
+          setIdNumber(text);
+          populateDOB(text);
+        }}
+        placeholder="Enter ID Number"
+      />
+
+      <Text>Date of Birth:</Text>
+      <TextInput style={styles.input} value={dob} editable={false} placeholder="Date of Birth" />
+
+      <Text>Age:</Text>
+      <TextInput style={styles.input} value={age} editable={false} placeholder="Age" />
+
+      <Text>Loan Amount:</Text>
+      <TextInput
+        style={styles.input}
+        value={loanAmount}
+        onChangeText={setLoanAmount}
+        placeholder="Enter Loan Amount"
+        keyboardType="numeric"
+      />
+
+      <Text>Term:</Text>
+      <TextInput
+        style={styles.input}
+        value={term}
+        onChangeText={setTerm}
+        placeholder="Enter Term"
+        keyboardType="numeric"
+      />
+
+      <Button title="Submit Application" onPress={handleSubmit} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  formContainer: {
+    padding: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingHorizontal: 10,
   },
 });
