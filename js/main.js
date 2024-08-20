@@ -1,19 +1,48 @@
 document.getElementById('loan-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const name = document.getElementById('firstname').value + ' '+ document.getElementById('surname').value;
+    const idNumber = document.getElementById('idNumber').value;
     const loanAmount = parseFloat(document.getElementById('loan-amount').value);
     const term = parseInt(document.getElementById('term').value);
-    // Send this to the server
+    alert('About to run function');
+
+    const submitApplication = async () => {
+        alert('running function');
+        const applicationData = {
+            idNumber: idNumber,
+            loanAmount: loanAmount,
+            term: term
+        };
     
+        try {
+            alert('Connecting');
+            const response = await fetch('http://localhost:3000/application', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(applicationData)
+            });
     
-    //Retrieve the response from the server and populate fields
-    //Assign to annual rate
-    //Assign monthlyPayment
+            alert('Responding');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
     
-    if (name && email && password && !isNaN(loanAmount) && !isNaN(term)) {
+            const data = await response.json();
+            alert('Outputting');
+            console.log('Response:', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    
+
+
+    submitApplication();
+    
+    if (name) {
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
             <h2>Application Submitted</h2>
@@ -28,3 +57,5 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
         alert('Please fill in all fields correctly.');
     }
 });
+
+
