@@ -33,7 +33,7 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
             if (data && data.status === "Application Submitted") {
                 resultDiv.innerHTML = `
                     <h2>${data.status}</h2>
-                    <p><strong>ID Number:</strong> ${idNumber}</p>
+                    <p><strong>ID Number:</strong> ${data.idNumber}</p>
                     <p><strong>Loan Amount:</strong> ${data.loanAmount}</p>
                     <p><strong>Term:</strong> ${data.term}</p>
                     <p><strong>Annual Interest Rate:</strong> ${data.annualInterestRate}</p>
