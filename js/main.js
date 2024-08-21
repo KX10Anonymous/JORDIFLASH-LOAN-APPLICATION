@@ -1,22 +1,19 @@
 document.getElementById('loan-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const name = document.getElementById('firstname').value + ' '+ document.getElementById('surname').value;
+    const name = document.getElementById('firstname').value + ' ' + document.getElementById('surname').value;
     const idNumber = document.getElementById('idNumber').value;
     const loanAmount = parseFloat(document.getElementById('loan-amount').value);
     const term = parseInt(document.getElementById('term').value);
-    alert('About to run function');
 
     const submitApplication = async () => {
-        alert('running function');
         const applicationData = {
             idNumber: idNumber,
             loanAmount: loanAmount,
             term: term
         };
-    
+
         try {
-            alert('Connecting');
             const response = await fetch('http://localhost:3000/application', {
                 method: 'POST',
                 headers: {
@@ -24,42 +21,33 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
                 },
                 body: JSON.stringify(applicationData)
             });
-    
-            alert('Responding');
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-    
+
             const data = await response.json();
-            data.idNumber
-            data.loanAmount
-            data.term
-            data.annualRate
-            data.monthlyPayment
-            if (name) {
-                const resultDiv = document.getElementById('result');
+            
+            // Ensure that 'result' is properly formatted to handle null or undefined values
+            const resultDiv = document.getElementById('result');
+            if (data && data.status === "Application Submitted") {
                 resultDiv.innerHTML = `
-                    <h2>Application Submitted</h2>
-                    <p><strong>idNumber:</strong> ${idNumber}</p>
-                    <p><strong>Loan Amount:</strong> R${loanAmount.toFixed(2)}</p>
-                    <p><strong>Term:</strong> ${term} months</p>
-                    <p><strong>Annual Interest Rate:</strong> ${annualRate}%</p>
-                    <p><strong>Monthly Payment:</strong> R${monthlyPayment.toFixed(2)}</p>
+                    <h2>${data.status}</h2>
+                    <p><strong>ID Number:</strong> ${idNumber}</p>
+                    <p><strong>Loan Amount:</strong> ${data.loanAmount}</p>
+                    <p><strong>Term:</strong> ${data.term}</p>
+                    <p><strong>Annual Interest Rate:</strong> ${data.annualInterestRate}</p>
+                    <p><strong>Monthly Payment:</strong> ${data.monthlyPayment}</p>
                 `;
             } else {
-                alert('Please fill in all fields correctly.');
+                resultDiv.innerHTML = `<p>${data.error || 'Unknown error occurred'}</p>`;
             }
-            console.log('Response:', data);
         } catch (error) {
             console.error('Error:', error);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
         }
     };
-    
-
 
     submitApplication();
-    
-    
 });
-
-
