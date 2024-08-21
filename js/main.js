@@ -31,7 +31,24 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
             }
     
             const data = await response.json();
-            alert('Outputting');
+            data.idNumber
+            data.loanAmount
+            data.term
+            data.annualRate
+            data.monthlyPayment
+            if (name) {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `
+                    <h2>Application Submitted</h2>
+                    <p><strong>idNumber:</strong> ${idNumber}</p>
+                    <p><strong>Loan Amount:</strong> R${loanAmount.toFixed(2)}</p>
+                    <p><strong>Term:</strong> ${term} months</p>
+                    <p><strong>Annual Interest Rate:</strong> ${annualRate}%</p>
+                    <p><strong>Monthly Payment:</strong> R${monthlyPayment.toFixed(2)}</p>
+                `;
+            } else {
+                alert('Please fill in all fields correctly.');
+            }
             console.log('Response:', data);
         } catch (error) {
             console.error('Error:', error);
@@ -42,20 +59,7 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
 
     submitApplication();
     
-    if (name) {
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = `
-            <h2>Application Submitted</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Loan Amount:</strong> R${loanAmount.toFixed(2)}</p>
-            <p><strong>Term:</strong> ${term} months</p>
-            <p><strong>Annual Interest Rate:</strong> ${annualRate}%</p>
-            <p><strong>Monthly Payment:</strong> R${monthlyPayment.toFixed(2)}</p>
-        `;
-    } else {
-        alert('Please fill in all fields correctly.');
-    }
+    
 });
 
 
