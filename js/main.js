@@ -38,6 +38,8 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
                     <p><strong>Term:</strong> ${data.term}</p>
                     <p><strong>Annual Interest Rate:</strong> ${data.annualInterestRate}</p>
                     <p><strong>Monthly Payment:</strong> ${data.monthlyPayment}</p>
+                    <p><strong>Age:</strong> ${data.age} years</p>
+                    <p><strong>Date of Birth:</strong> ${data.birthDate}</p>
                 `;
             } else {
                 resultDiv.innerHTML = `<p>${data.error || 'Unknown error occurred'}</p>`;
