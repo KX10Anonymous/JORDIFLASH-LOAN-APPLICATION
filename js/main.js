@@ -14,7 +14,7 @@ document.getElementById('loan-form').addEventListener('submit', function(event) 
         };
 
         try {
-            const response = await fetch('http://localhost:3000/application', {
+            const response = await fetch('https://expressserver-dlw4.onrender.com/application', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
